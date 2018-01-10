@@ -42,6 +42,7 @@ dependencies {
     implementation "com.facebook.android:facebook-android-sdk:$facebook_version"
     implementation "com.jakewharton.timber:timber:$timber_version"
     ktlint "com.github.shyiko:ktlint:$ktlint_version"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
 }
 
 task ktlint(type: JavaExec, group: "verification") {
