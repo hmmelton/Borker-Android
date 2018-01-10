@@ -9,6 +9,7 @@ build/
 
 # Private files
 src/main/res/values/private_strings.xml
+src/main/kotlin/com/hmmelton/rescue/Config.kt
 
 # Local configuration file (sdk path, etc)
 local.properties
