@@ -43,6 +43,8 @@ dependencies {
     implementation "com.jakewharton.timber:timber:$timber_version"
     ktlint "com.github.shyiko:ktlint:$ktlint_version"
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
+    implementation "com.jakewharton.threetenabp:threetenabp:$threeten_version"
 }
 
 task ktlint(type: JavaExec, group: "verification") {
