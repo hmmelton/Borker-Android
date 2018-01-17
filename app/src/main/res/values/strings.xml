@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Rescue</string>
+
+    <!-- Button copy -->
+    <string name="btn_text_login_facebook">Login with Facebook</string>
 </resources>

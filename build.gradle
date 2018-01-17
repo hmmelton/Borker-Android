@@ -2,7 +2,7 @@
 
 buildscript {
     ext {
-        kotlin_version = '1.1.60'
+        kotlin_version = '1.2.10'
         espresso_version = '3.0.1'
         facebook_version = '4.29.0'
         timber_version = '4.6.0'
@@ -10,6 +10,7 @@ buildscript {
         retrofit_version = '2.3.0'
         moshi_version = '1.5.0'
         threeten_version = '1.0.5'
+        moshi_converter_version = '2.3.0'
     }
     repositories {
         google()

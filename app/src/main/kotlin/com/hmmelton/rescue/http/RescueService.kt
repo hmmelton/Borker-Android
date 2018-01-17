@@ -9,5 +9,6 @@ import retrofit2.http.Path
 interface RescueService {
 
     @POST("login/{facebookId}")
-    fun login(@Path("facebookId") facebookId: String, @Body user: User): Call<AccessTokens>
+    fun login(@Path("facebookId") facebookId: String,
+              @Body user: UserLogin): Call<AccessTokens>
 }

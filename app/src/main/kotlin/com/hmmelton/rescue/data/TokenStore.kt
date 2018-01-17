@@ -11,7 +11,7 @@ interface TokenStore {
     fun clear()
 }
 
-class SharedPreferencesTokenStore(ctx: Context, tokens: AccessTokens): TokenStore {
+class SharedPreferencesTokenStore(ctx: Context) : TokenStore {
 
     private val preferences = PreferenceManager.getDefaultSharedPreferences(ctx)
 
