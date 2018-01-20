@@ -8,12 +8,12 @@ data class User(
         val facebookId: String,
         val firstName: String,
         val lastName: String,
-        val phoneNumber: String?,
+        val phoneNumber: String? = null,
         val email: String,
         val createdWhen: Instant
 )
 
-data class UserLogin(
+data class LoginRequest(
         val facebookId: String,
         val firstName: String,
         val lastName: String,

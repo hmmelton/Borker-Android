@@ -5,6 +5,11 @@ import android.preference.PreferenceManager
 import com.hmmelton.rescue.http.AccessTokens
 
 interface TokenStore {
+    companion object {
+        const val HEADER_ACCESS_TOKEN = "Access-Token"
+        const val HEADER_REFRESH_TOKEN = "Refresh-Token"
+    }
+
     fun hasTokens(): Boolean
     fun getTokens(): AccessTokens?
     fun setTokens(tokens: AccessTokens)

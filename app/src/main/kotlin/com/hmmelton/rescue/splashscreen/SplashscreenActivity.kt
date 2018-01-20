@@ -2,7 +2,7 @@ package com.hmmelton.rescue.splashscreen
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import com.hmmelton.rescue.RescueApplication
+import com.hmmelton.rescue.App
 
 class SplashscreenActivity : AppCompatActivity() {
 
@@ -10,8 +10,8 @@ class SplashscreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         // Create screen's presenter
-        val tokenStore = (application as RescueApplication).tokenStore
-        val presenter = SplashscreenPresenter(this, tokenStore)
+        val userSession = (application as App).userSession
+        val presenter = SplashscreenPresenter(this, userSession)
         presenter.onCreate()
 
         finish()

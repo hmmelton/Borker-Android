@@ -10,9 +10,11 @@ import com.facebook.FacebookException
 import com.facebook.GraphRequest
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
-import com.hmmelton.rescue.RescueApplication
+import com.hmmelton.rescue.App
+import com.hmmelton.rescue.data.TokenStore
 import com.hmmelton.rescue.http.AccessTokens
-import com.hmmelton.rescue.http.UserLogin
+import com.hmmelton.rescue.http.LoginRequest
+import com.hmmelton.rescue.http.User
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -27,17 +29,25 @@ class AuthPresenter(private val activity: Activity) {
 
     private val callbackManager = CallbackManager.Factory.create()
 
-    private val loginCallback = object : Callback<AccessTokens> {
-        override fun onResponse(call: Call<AccessTokens>, response: Response<AccessTokens>) {
-            response.body()?.let { tokens ->
-                (activity.application as RescueApplication).tokenStore.setTokens(tokens)
+    private val loginCallback = object : Callback<User> {
+        override fun onResponse(call: Call<User>, response: Response<User>) {
+            response.body()?.let { user ->
+                val accessToken =
+                        response.headers().get(TokenStore.HEADER_ACCESS_TOKEN) ?:
+                                throw IllegalStateException("Access token header missing")
+                val refreshToken =
+                        response.headers().get(TokenStore.HEADER_REFRESH_TOKEN) ?:
+                                throw IllegalStateException("Refresh token header missing")
 
-                // TODO: save user
+                val userSession = (activity.application as App).userSession
+                userSession.tokens = AccessTokens(accessToken, refreshToken)
+                userSession.user = user
+
                 // TODO: navigate to main page
             }
         }
 
-        override fun onFailure(call: Call<AccessTokens>, t: Throwable) {
+        override fun onFailure(call: Call<User>, t: Throwable) {
         }
     }
 
@@ -91,13 +101,13 @@ class AuthPresenter(private val activity: Activity) {
      * This function logs the user in through the Rescue API.
      */
     private fun login(userJson: JSONObject) {
-        val user = UserLogin(
+        val user = LoginRequest(
                 userJson.getString("id"),
                 userJson.getString("first_name"),
                 userJson.getString("last_name"),
                 userJson.getString("email")
         )
-        (activity.application as RescueApplication).service
+        (activity.application as App).service
                 .login(userJson.getString("id"), user)
                 .enqueue(loginCallback)
     }

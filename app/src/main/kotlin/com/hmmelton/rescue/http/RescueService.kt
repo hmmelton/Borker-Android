@@ -10,5 +10,5 @@ interface RescueService {
 
     @POST("login/{facebookId}")
     fun login(@Path("facebookId") facebookId: String,
-              @Body user: UserLogin): Call<AccessTokens>
+              @Body user: LoginRequest): Call<User>
 }

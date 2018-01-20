@@ -3,6 +3,7 @@ package com.hmmelton.rescue
 import android.app.Application
 import com.hmmelton.rescue.data.SharedPreferencesTokenStore
 import com.hmmelton.rescue.data.TokenStore
+import com.hmmelton.rescue.data.UserSession
 import com.hmmelton.rescue.http.RescueService
 import com.hmmelton.rescue.http.User
 import retrofit2.Retrofit
@@ -10,7 +11,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 
-class RescueApplication : Application() {
+class App : Application() {
 
     val service: RescueService by lazy {
         Retrofit.Builder()
@@ -20,13 +21,12 @@ class RescueApplication : Application() {
                 .create(RescueService::class.java)
     }
 
-    lateinit var tokenStore: TokenStore
-    
+    lateinit var userSession: UserSession
 
     override fun onCreate() {
         super.onCreate()
         Timber.plant(DebugTree())
 
-        tokenStore = SharedPreferencesTokenStore(this)
+        userSession = UserSession(this, SharedPreferencesTokenStore(this))
     }
 }
