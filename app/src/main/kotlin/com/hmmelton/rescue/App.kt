@@ -4,6 +4,7 @@ import android.app.Application
 import com.hmmelton.rescue.data.SharedPreferencesTokenStore
 import com.hmmelton.rescue.data.TokenStore
 import com.hmmelton.rescue.http.RescueService
+import com.hmmelton.rescue.http.User
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import timber.log.Timber
@@ -20,6 +21,7 @@ class RescueApplication : Application() {
     }
 
     lateinit var tokenStore: TokenStore
+    
 
     override fun onCreate() {
         super.onCreate()
