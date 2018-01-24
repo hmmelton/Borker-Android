@@ -25,7 +25,7 @@ import timber.log.Timber
  * Created by harrisonmelton on 1/16/18.
  * Presenter for auth screen
  */
-class AuthPresenter(private val activity: Activity) {
+class AuthPresenter(private val activity: Activity) : IAuthPresenter {
 
     private val callbackManager = CallbackManager.Factory.create()
 
@@ -33,11 +33,11 @@ class AuthPresenter(private val activity: Activity) {
         override fun onResponse(call: Call<User>, response: Response<User>) {
             response.body()?.let { user ->
                 val accessToken =
-                        response.headers().get(TokenStore.HEADER_ACCESS_TOKEN) ?:
-                                throw IllegalStateException("Access token header missing")
+                        response.headers().get(TokenStore.HEADER_ACCESS_TOKEN)
+                                ?: throw IllegalStateException("Access token header missing")
                 val refreshToken =
-                        response.headers().get(TokenStore.HEADER_REFRESH_TOKEN) ?:
-                                throw IllegalStateException("Refresh token header missing")
+                        response.headers().get(TokenStore.HEADER_REFRESH_TOKEN)
+                                ?: throw IllegalStateException("Refresh token header missing")
 
                 val userSession = (activity.application as App).userSession
                 userSession.tokens = AccessTokens(accessToken, refreshToken)
@@ -51,7 +51,7 @@ class AuthPresenter(private val activity: Activity) {
         }
     }
 
-    fun onCreate() {
+    override fun onCreate() {
         LoginManager.getInstance().registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(result: LoginResult) {
                 // Call was successful - fetch additional user info
@@ -68,11 +68,11 @@ class AuthPresenter(private val activity: Activity) {
         })
     }
 
-    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         callbackManager.onActivityResult(requestCode, resultCode, data)
     }
 
-    fun onLoginClick() {
+    override fun onLoginClick() {
         LoginManager.getInstance().logInWithReadPermissions(activity, listOf("email"))
     }
 
