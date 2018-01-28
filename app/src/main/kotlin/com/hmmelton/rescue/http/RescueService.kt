@@ -8,7 +8,7 @@ import retrofit2.http.Path
 /** This interface defines networking calls that can be made to the Rescue API */
 interface RescueService {
 
-    @POST("login/{facebookId}")
-    fun login(@Path("facebookId") facebookId: String,
+    @POST("auth/login/{facebookToken}")
+    fun login(@Path("facebookToken") facebookToken: String,
               @Body user: LoginRequest): Call<User>
 }
