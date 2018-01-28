@@ -2,6 +2,7 @@ package com.hmmelton.rescue.data
 
 import android.content.Context
 import android.preference.PreferenceManager
+import com.facebook.login.LoginManager
 import com.hmmelton.rescue.http.AccessTokens
 import com.hmmelton.rescue.http.User
 import com.squareup.moshi.Moshi
@@ -43,5 +44,6 @@ class UserSession(private val ctx: Context, private val tokenStore: TokenStore) 
     fun clear() {
         user = null
         tokenStore.clear()
+        LoginManager.getInstance().logOut()
     }
 }
