@@ -15,6 +15,7 @@ import com.hmmelton.rescue.data.TokenStore
 import com.hmmelton.rescue.http.AccessTokens
 import com.hmmelton.rescue.http.LoginRequest
 import com.hmmelton.rescue.http.User
+import com.hmmelton.rescue.mainscreen.MainActivity
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -39,15 +40,18 @@ class AuthPresenter(private val activity: Activity) : IAuthPresenter {
                         response.headers().get(TokenStore.HEADER_REFRESH_TOKEN)
                                 ?: throw IllegalStateException("Refresh token header missing")
 
+                // Save Rescue API access tokens
                 val userSession = (activity.application as App).userSession
                 userSession.tokens = AccessTokens(accessToken, refreshToken)
                 userSession.user = user
 
-                // TODO: navigate to main page
+                // Navigate to main page
+                activity.startActivity(Intent(activity, MainActivity::class.java))
             }
         }
 
         override fun onFailure(call: Call<User>, t: Throwable) {
+            Timber.e(t, "Login failed")
         }
     }
 
@@ -55,7 +59,7 @@ class AuthPresenter(private val activity: Activity) : IAuthPresenter {
         LoginManager.getInstance().registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(result: LoginResult) {
                 // Call was successful - fetch additional user info
-                makeGraphRequest()
+                makeGraphRequest(result.accessToken.token)
             }
 
             override fun onError(error: FacebookException?) {
@@ -79,20 +83,20 @@ class AuthPresenter(private val activity: Activity) : IAuthPresenter {
     /**
      * This function makes a call to Facebook's Graph API to fetch more user info.
      */
-    private fun makeGraphRequest() {
+    private fun makeGraphRequest(token: String) {
         val request = GraphRequest.newMeRequest(
                 AccessToken.getCurrentAccessToken()
         ) { `object`, response ->
 
             // If there was no error, login
             if (response.error == null) {
-                login(`object`)
+                login(`object`, token)
             }
         }
 
         // Add requested fields
         val parameters = Bundle()
-        parameters.putString("fields", "id,name")
+        parameters.putString("fields", "id,first_name,last_name,email")
         request.parameters = parameters
         request.executeAsync()
     }
@@ -100,7 +104,7 @@ class AuthPresenter(private val activity: Activity) : IAuthPresenter {
     /**
      * This function logs the user in through the Rescue API.
      */
-    private fun login(userJson: JSONObject) {
+    private fun login(userJson: JSONObject, token: String) {
         val user = LoginRequest(
                 userJson.getString("id"),
                 userJson.getString("first_name"),
@@ -108,7 +112,7 @@ class AuthPresenter(private val activity: Activity) : IAuthPresenter {
                 userJson.getString("email")
         )
         (activity.application as App).service
-                .login(userJson.getString("id"), user)
+                .login(token, user)
                 .enqueue(loginCallback)
     }
 }

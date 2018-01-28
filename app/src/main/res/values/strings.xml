@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Rescue</string>
 
+    <!-- Menu action copy -->
+    <string name="menu_sign_out">Sign out</string>
+
     <!-- Button copy -->
     <string name="btn_text_login_facebook">Login with Facebook</string>
 </resources>
