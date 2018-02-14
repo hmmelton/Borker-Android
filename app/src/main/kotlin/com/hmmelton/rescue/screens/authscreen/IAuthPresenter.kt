@@ -1,4 +1,4 @@
-package com.hmmelton.rescue.authscreen
+package com.hmmelton.rescue.screens.authscreen
 
 import android.content.Intent
 

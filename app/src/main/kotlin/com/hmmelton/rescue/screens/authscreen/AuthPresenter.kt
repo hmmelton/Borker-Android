@@ -1,4 +1,4 @@
-package com.hmmelton.rescue.authscreen
+package com.hmmelton.rescue.screens.authscreen
 
 import android.app.Activity
 import android.content.Intent
@@ -15,7 +15,7 @@ import com.hmmelton.rescue.data.TokenStore
 import com.hmmelton.rescue.http.AccessTokens
 import com.hmmelton.rescue.http.LoginRequest
 import com.hmmelton.rescue.http.User
-import com.hmmelton.rescue.mainscreen.MainActivity
+import com.hmmelton.rescue.screens.mainscreen.MainActivity
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback

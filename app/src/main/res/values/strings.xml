@@ -6,4 +6,8 @@
 
     <!-- Button copy -->
     <string name="btn_text_login_facebook">Login with Facebook</string>
+
+    <!-- Content description -->
+    <string name="description_ic_filters">Search filters</string>
+    <string name="description_ic_favorite">Saved pets</string>
 </resources>

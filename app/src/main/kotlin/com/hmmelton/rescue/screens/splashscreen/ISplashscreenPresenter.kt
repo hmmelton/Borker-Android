@@ -1,4 +1,4 @@
-package com.hmmelton.rescue.splashscreen
+package com.hmmelton.rescue.screens.splashscreen
 
 /**
  * Created by harrisonmelton on 1/23/18.

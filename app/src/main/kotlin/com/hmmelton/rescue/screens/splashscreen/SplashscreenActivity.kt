@@ -1,4 +1,4 @@
-package com.hmmelton.rescue.splashscreen
+package com.hmmelton.rescue.screens.splashscreen
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
