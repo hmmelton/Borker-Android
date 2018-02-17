@@ -26,16 +26,9 @@ class MainController : Controller() {
         ctx = view.context
 
         // Set OnClickListeners for Toolbar buttons
-        view.barItemFavorites.setOnClickListener(favoritesOnClickListener)
         view.barItemFilters.setOnClickListener(filtersOnClickListener)
 
         return view
-    }
-
-    private val favoritesOnClickListener = View.OnClickListener {
-        (ctx.applicationContext as App).userSession.clear()
-        ctx.startActivity(Intent(ctx, AuthActivity::class.java))
-        router.activity?.finish()
     }
 
     private val filtersOnClickListener = View.OnClickListener {

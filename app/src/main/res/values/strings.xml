@@ -6,6 +6,7 @@
 
     <!-- Button copy -->
     <string name="btn_text_login_facebook">Login with Facebook</string>
+    <string name="btn_text_sign_out">Sign out</string>
 
     <!-- Content description -->
     <string name="description_ic_filters">Search filters</string>
