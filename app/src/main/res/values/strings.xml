@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Rescue</string>
 
-    <!-- Menu action copy -->
-    <string name="menu_sign_out">Sign out</string>
+    <!-- AppBar copy -->
+    <string name="title_filters">Filters</string>
 
     <!-- Button copy -->
     <string name="btn_text_login_facebook">Login with Facebook</string>
@@ -10,4 +10,5 @@
     <!-- Content description -->
     <string name="description_ic_filters">Search filters</string>
     <string name="description_ic_favorite">Saved pets</string>
+    <string name="description_id_search">Available pets</string>
 </resources>
