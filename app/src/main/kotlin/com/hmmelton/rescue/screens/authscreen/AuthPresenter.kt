@@ -30,31 +30,6 @@ class AuthPresenter(private val activity: Activity) : IAuthPresenter {
 
     private val callbackManager = CallbackManager.Factory.create()
 
-    private val loginCallback = object : Callback<User> {
-        override fun onResponse(call: Call<User>, response: Response<User>) {
-            response.body()?.let { user ->
-                val accessToken =
-                        response.headers().get(TokenStore.HEADER_ACCESS_TOKEN)
-                                ?: throw IllegalStateException("Access token header missing")
-                val refreshToken =
-                        response.headers().get(TokenStore.HEADER_REFRESH_TOKEN)
-                                ?: throw IllegalStateException("Refresh token header missing")
-
-                // Save Rescue API access tokens
-                val userSession = (activity.application as App).userSession
-                userSession.tokens = AccessTokens(accessToken, refreshToken)
-                userSession.user = user
-
-                // Navigate to main page
-                activity.startActivity(Intent(activity, MainActivity::class.java))
-            }
-        }
-
-        override fun onFailure(call: Call<User>, t: Throwable) {
-            Timber.e(t, "Login failed")
-        }
-    }
-
     override fun onCreate() {
         LoginManager.getInstance().registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(result: LoginResult) {
@@ -114,5 +89,31 @@ class AuthPresenter(private val activity: Activity) : IAuthPresenter {
         (activity.application as App).service
                 .login(token, user)
                 .enqueue(loginCallback)
+    }
+
+    private val loginCallback = object : Callback<User> {
+        override fun onResponse(call: Call<User>, response: Response<User>) {
+            response.body()?.let { user ->
+                val accessToken =
+                    response.headers().get(TokenStore.HEADER_ACCESS_TOKEN)
+                            ?: throw IllegalStateException("Access token header missing")
+                val refreshToken =
+                    response.headers().get(TokenStore.HEADER_REFRESH_TOKEN)
+                            ?: throw IllegalStateException("Refresh token header missing")
+
+                // Save Rescue API access tokens
+                val userSession = (activity.application as App).userSession
+                userSession.tokens = AccessTokens(accessToken, refreshToken)
+                userSession.user = user
+
+                // Navigate to main page
+                activity.startActivity(Intent(activity, MainActivity::class.java))
+                activity.finish()
+            }
+        }
+
+        override fun onFailure(call: Call<User>, t: Throwable) {
+            Timber.e(t, "Login failed")
+        }
     }
 }
